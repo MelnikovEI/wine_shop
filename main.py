@@ -43,7 +43,6 @@ def main():
                         help='path to table with products description')
     args = parser.parse_args()
     table_file_name = args.table_file_name
-    print(table_file_name)
 
     rendered_page = template.render(
         wine_maker_age=get_wine_maker_age(),
