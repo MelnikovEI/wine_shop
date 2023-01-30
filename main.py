@@ -1,5 +1,7 @@
+import argparse
 import collections
 import datetime
+import os
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 import pandas
@@ -35,9 +37,17 @@ def main():
 
     template = env.get_template('template.html')
 
+    table_file_name = os.environ.get('TABLE_FILE_NAME', 'wine.xlsx')
+    parser = argparse.ArgumentParser(description='Reads the excel table to run the wine shop site')
+    parser.add_argument('table_file_name', nargs='?', default=table_file_name,
+                        help='path to table with products description')
+    args = parser.parse_args()
+    table_file_name = args.table_file_name
+    print(table_file_name)
+
     rendered_page = template.render(
         wine_maker_age=get_wine_maker_age(),
-        products=get_products('wine.xlsx'),
+        products=get_products(table_file_name),
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
