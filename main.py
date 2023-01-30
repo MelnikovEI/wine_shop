@@ -14,9 +14,7 @@ def get_ru_word_year(years):
 
 
 def get_wine_maker_age():
-    foundation_date = datetime.date(year=FOUNDATION_YEAR, month=1, day=1)
-    today = datetime.date.today()
-    wine_maker_age = today.year - foundation_date.year
+    wine_maker_age = datetime.date.today().year - FOUNDATION_YEAR
     return f"{wine_maker_age} {get_ru_word_year(wine_maker_age)}"
 
 
