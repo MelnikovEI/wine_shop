@@ -20,8 +20,8 @@ def get_wine_maker_age():
     return f"{wine_maker_age} {get_ru_word_year(wine_maker_age)}"
 
 
-def get_products(file_name):
-    product_cards = pandas.read_excel(file_name, keep_default_na=False).to_dict(orient='records')
+def get_products(file_path):
+    product_cards = pandas.read_excel(file_path, keep_default_na=False).to_dict(orient='records')
     products = collections.defaultdict(list)
     for product_card in product_cards:
         category = product_card.get('Категория')
@@ -37,16 +37,16 @@ def main():
 
     template = env.get_template('template.html')
 
-    table_file_name = os.environ.get('TABLE_FILE_NAME', 'wine.xlsx')
+    table_file_path = os.environ.get('TABLE_FILE_PATH', 'wine.xlsx')
     parser = argparse.ArgumentParser(description='Reads the excel table to run the wine shop site')
-    parser.add_argument('table_file_name', nargs='?', default=table_file_name,
+    parser.add_argument('table_file_path', nargs='?', default=table_file_path,
                         help='path to table with products description')
     args = parser.parse_args()
-    table_file_name = args.table_file_name
+    table_file_path = args.table_file_path
 
     rendered_page = template.render(
         wine_maker_age=get_wine_maker_age(),
-        products=get_products(table_file_name),
+        products=get_products(table_file_path),
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
