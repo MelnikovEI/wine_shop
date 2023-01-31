@@ -20,13 +20,13 @@ def get_wine_maker_age():
     return f"{wine_maker_age} {get_ru_word_year(wine_maker_age)}"
 
 
-def get_products(file_path):
+def get_assortment(file_path):
     product_cards = pandas.read_excel(file_path, keep_default_na=False).to_dict(orient='records')
-    products = collections.defaultdict(list)
+    assortment = collections.defaultdict(list)
     for product_card in product_cards:
         category = product_card.get('Категория')
-        products[category].append(product_card)
-    return products
+        assortment[category].append(product_card)
+    return assortment
 
 
 def main():
@@ -46,7 +46,7 @@ def main():
 
     rendered_page = template.render(
         wine_maker_age=get_wine_maker_age(),
-        products=get_products(table_file_path),
+        assortment=get_assortment(table_file_path),
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
